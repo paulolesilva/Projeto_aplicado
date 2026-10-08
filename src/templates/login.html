@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Login Seguro | Projeto Aplicado{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="glass-card" id="login-card">
+    <div class="card-header">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔐</div>
+      <h1>Autenticação de Acesso</h1>
+      <p>Área restrita &bull; Acesso protegido por criptografia</p>
+    </div>
+
+    <!-- Mensagens Flash de Notificação -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages" id="flash-container">
+          {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}" role="alert">
+              <span>{{ '⚠️' if category == 'danger' else 'ℹ️' }}</span>
+              <span>{{ message }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}" id="login-form" autocomplete="off" novalidate>
+      <div class="form-group">
+        <label for="username" class="form-label">Usuário</label>
+        <div class="input-container">
+          <input 
+            type="text" 
+            name="username" 
+            id="username" 
+            class="form-input" 
+            placeholder="Digite seu usuário..." 
+            required 
+            autofocus 
+            maxlength="64"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Senha</label>
+        <div class="input-container">
+          <input 
+            type="password" 
+            name="password" 
+            id="password" 
+            class="form-input" 
+            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" 
+            required 
+            maxlength="128"
+          >
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="btn-login">
+        <span>Acessar Painel Seguro</span>
+        <span>&rarr;</span>
+      </button>
+    </form>
+
+    <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--bg-card-border); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+      <p>🛡️ <strong>Mitigações Ativas:</strong> Anti-Brute Force (Rate Limiting) &bull; Hash Criptográfico &bull; Sanitização de Entradas</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

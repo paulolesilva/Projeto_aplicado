@@ -1,0 +1,74 @@
+# ==========================================
+# .gitignore - Projeto Aplicado (Python / Cloud / DevSecOps)
+# ==========================================
+
+# Ambientes Virtuais e Gerenciadores de Dependências
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Bytecode e Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Segurança e Credenciais Sensíveis (Obrigatório Eixo 2)
+# NUNCA commitar chaves, senhas ou variáveis de ambiente
+.env
+.env.local
+.env.*.local
+*.env
+!*.env.example
+*.pem
+*.key
+*.pub
+*.crt
+*.pfx
+*.p12
+id_rsa
+id_rsa*
+id_ed25519
+id_ed25519*
+known_hosts
+authorized_keys
+
+# Credenciais Cloud & Infraestrutura
+credentials.json
+service-account*.json
+*.credentials
+*.aws/
+.gcp/
+.azure/
+terraform.tfstate*
+*.tfvars
+
+# Bancos de Dados Locais e Arquivos Temporários
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+# IDEs e Editores de Código
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Certificados locais de teste
+cert.pem
+privkey.pem
+fullchain.pem

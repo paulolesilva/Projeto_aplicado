@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Interno | Projeto Aplicado{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <!-- Hero / Cabeçalho do Dashboard -->
+  <div class="dashboard-hero" id="dashboard-hero">
+    <div class="user-welcome">
+      <h2>Área Interna Protegida</h2>
+      <p>Bem-vindo, <strong>{{ username }}</strong>! Sua sessão está autenticada com cookies criptografados seguros.</p>
+    </div>
+    
+    <div style="display: flex; gap: 0.75rem; align-items: center;">
+      <a href="{{ url_for('logout') }}" class="btn btn-danger" id="btn-logout">
+        <span>Encerrar Sessão (Logout)</span>
+        <span>🚪</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Cards dos 3 Eixos Obrigatórios -->
+  <div class="grid-3">
+    <!-- Eixo 1 -->
+    <div class="stat-card" id="card-eixo1">
+      <div class="stat-header">
+        <div class="stat-icon icon-cyan">☁️</div>
+        <div>
+          <h3 class="stat-title">Eixo 1: Nuvem & Infra</h3>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Hospedagem Free Tier</span>
+        </div>
+      </div>
+      <ul class="stat-list">
+        <li><span>Sistema Operacional</span> <span class="pill-active">Ubuntu Server / Debian</span></li>
+        <li><span>Servidor Web</span> <span class="pill-active">Nginx / Reverse Proxy</span></li>
+        <li><span>Segurança SSH</span> <span class="pill-active">Chave Pública + Fail2Ban</span></li>
+        <li><span>TLS / HTTPS</span> <span class="pill-active">Certbot + PQC Ready</span></li>
+      </ul>
+    </div>
+
+    <!-- Eixo 2 -->
+    <div class="stat-card" id="card-eixo2">
+      <div class="stat-header">
+        <div class="stat-icon icon-blue">📦</div>
+        <div>
+          <h3 class="stat-title">Eixo 2: Repositório</h3>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Controle de Versão Seguro</span>
+        </div>
+      </div>
+      <ul class="stat-list">
+        <li><span>Plataforma</span> <span class="pill-active">GitHub (Público)</span></li>
+        <li><span>Proteção de Segredos</span> <span class="pill-active">.gitignore Estrito</span></li>
+        <li><span>Autenticação Git</span> <span class="pill-active">SSH Key / PAT + 2FA</span></li>
+        <li><span>Secrets Management</span> <span class="pill-active">GitHub Secrets (CI/CD)</span></li>
+      </ul>
+    </div>
+
+    <!-- Eixo 3 -->
+    <div class="stat-card" id="card-eixo3">
+      <div class="stat-header">
+        <div class="stat-icon icon-emerald">💻</div>
+        <div>
+          <h3 class="stat-title">Eixo 3: Aplicação Web</h3>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Secure by Design</span>
+        </div>
+      </div>
+      <ul class="stat-list">
+        <li><span>Linguagem / Stack</span> <span class="pill-active">Python 3 + Flask</span></li>
+        <li><span>IDE Assistida</span> <span class="pill-active">Google Antigravity</span></li>
+        <li><span>Controle de Acesso</span> <span class="pill-active">Autenticação Ativa</span></li>
+        <li><span>OWASP Top 10</span> <span class="pill-active">Mitigações Ativas</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Seção de Evidências das Mitigações OWASP -->
+  <div class="owasp-section" id="owasp-details">
+    <h3 class="section-title">
+      <span>🛡️ Mitigações Técnicas OWASP Top 10 Ativas</span>
+    </h3>
+    <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 0.9rem;">
+      Em conformidade com os critérios de aprovação do Eixo 3, as seguintes vulnerabilidades foram mitigadas no código-fonte (<code class="code-badge">src/main.py</code>):
+    </p>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Categoria OWASP</th>
+            <th>Vulnerabilidade Mitigada</th>
+            <th>Implementação Técnica no Código</th>
+            <th>Localização no Arquivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: #60a5fa;">A01:2021 / 2025</strong></td>
+            <td>Broken Access Control (Quebra de Controle de Acesso)</td>
+            <td>Decorator <code>@login_required</code> bloqueia navegação forçada para rotas internas; destruição atômica da sessão em <code>/logout</code>; flags <code>HttpOnly</code> e <code>SameSite</code>.</td>
+            <td><span class="code-badge">src/main.py (linhas ~70-95)</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #34d399;">A07:2021 / 2025</strong></td>
+            <td>Identification & Authentication Failures</td>
+            <td>Hash criptográfico com sal via <code>generate_password_hash</code> (PBKDF2/Scrypt); Rate Limiting anti-força bruta (5 req/min); respostas genéricas anti-enumeração.</td>
+            <td><span class="code-badge">src/main.py (linhas ~45-65)</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #f43f5e;">A03:2021 / 2025</strong></td>
+            <td>Injection & Cross-Site Scripting (XSS)</td>
+            <td>Escape contextual rigoroso via Jinja2 <code>autoescape=True</code>; sanitização e validação de tamanho e tipo nos payloads do formulário.</td>
+            <td><span class="code-badge">src/main.py & templates</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #f59e0b;">A05:2021 / 2025</strong></td>
+            <td>Security Misconfiguration</td>
+            <td>Injeção obrigatória de cabeçalhos de segurança em todas as respostas (CSP, X-Frame-Options: DENY, X-Content-Type-Options, HSTS).</td>
+            <td><span class="code-badge">src/main.py (@after_request)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}Projeto Aplicado - Práticas de Mercado{% endblock %}</title>
+  
+  <!-- Tipografia Inter Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos da Aplicação -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <!-- Meta de Segurança -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-container">
+      <a href="{{ url_for('index') }}" class="brand-badge" id="brand-link">
+        <div class="brand-icon">🛡️</div>
+        <div>
+          <div class="brand-title">Projeto Aplicado</div>
+          <div class="brand-subtitle">Práticas de Mercado & DevSecOps</div>
+        </div>
+      </a>
+      
+      <div class="header-meta">
+        <span class="badge badge-secure">🔒 Secure by Design</span>
+        <span class="badge badge-cloud">☁️ Cloud Ready</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="app-footer">
+    <p>Projeto Aplicado: Práticas de Mercado &copy; 2026 &bull; Desenvolvido com Antigravity IDE &bull; Foco em Cibersegurança & OWASP Top 10</p>
+  </footer>
+</body>
+</html>
