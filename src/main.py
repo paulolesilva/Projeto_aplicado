@@ -2,12 +2,14 @@
 Projeto Aplicado: Práticas de Mercado
 Módulo Principal de Aplicação Web (Flask)
 
+
 Arquitetura: Secure by Design & Secure by Default
-Mitigações OWASP Top 10 Ativas:
- - A01: Broken Access Control (Controle de acesso rigoroso & sessões protegidas)
- - A07: Identification and Authentication Failures (Hash com sal, anti-brute force, anti-enumeração)
- - A03: Injection & XSS (Escape contextual Jinja2 & sanitização de inputs)
- - A05: Security Misconfiguration (Cabeçalhos HTTP de segurança obrigatórios)
+
+Controles de segurança relacionados à OWASP Top 10:2025:
+ - A01: Broken Access Control (controle de acesso e proteção de rotas)
+ - A02: Security Misconfiguration (configurações e cabeçalhos de segurança)
+ - A05: Injection (uso de templates Jinja2 com escape contextual)
+ - A07: Authentication Failures (hash de senha, autenticação e limitação de tentativas)
 """
 
 import os
@@ -50,10 +52,14 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 # CONFIGURAÇÃO DE SEGURANÇA (OWASP A01 & A05: Secure Session & Configuration)
 # ==============================================================================
 # Chave Secreta para Assinatura Criptográfica de Sessões
+
 SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
+
 if not SECRET_KEY:
-    SECRET_KEY = secrets.token_hex(32)
-    logger.warning("FLASK_SECRET_KEY não definida no ambiente. Gerada chave efêmera segura para a sessão.")
+    raise RuntimeError(
+        "Configure FLASK_SECRET_KEY no ambiente antes de iniciar a aplicação."
+    )
+
 app.secret_key = SECRET_KEY
 
 # Configuração de Cookies de Sessão Seguros
@@ -90,7 +96,13 @@ except Exception as e:
 # Em conformidade com o escopo: sem obrigatoriedade de BD externo complexo
 # ==============================================================================
 ADMIN_USER = os.getenv("ADMIN_USERNAME", "admin")
-ADMIN_RAW_PASS = os.getenv("ADMIN_PASSWORD", "Admin@Sec2026!Projeto")
+ADMIN_RAW_PASS = os.getenv("ADMIN_PASSWORD")
+
+if not ADMIN_RAW_PASS:
+    raise RuntimeError(
+        "Configure ADMIN_PASSWORD no ambiente antes de iniciar a aplicação."
+    )
+
 
 # As senhas NUNCA são salvas em texto puro. Armazenamos apenas o hash com sal (PBKDF2/Scrypt)
 # OWASP A07: Identification and Authentication Failures
@@ -278,6 +290,5 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     debug_mode = os.getenv("DEBUG", "false").lower() == "true"
     print(f"\n[+] Servidor do Projeto Aplicado iniciado em: http://127.0.0.1:{port}")
-    print(f"[+] Credenciais padrão: {ADMIN_USER} / {ADMIN_RAW_PASS}")
     print("[+] Pressione Ctrl+C para encerrar.\n")
     app.run(host="0.0.0.0", port=port, debug=debug_mode)

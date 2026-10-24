@@ -265,15 +265,15 @@ A aplicação atende à tríade mínima exigida pelo escopo:
 
 ### Mapeamento e Comprovação das Mitigações OWASP Top 10
 
-Conforme exigido pelo critério de aprovação da disciplina, o código em [`src/main.py`](file:///src/main.py) mitiga ativamente vulnerabilidades do catálogo **OWASP Top 10**:
 
-| Categoria OWASP | Vulnerabilidade Mitigada | Descrição da Proteção Implementada | Onde Encontrar no Código |
-| :--- | :--- | :--- | :--- |
-| **A01:2021 / 2025** | **Broken Access Control** (Quebra de Controle de Acesso) | Implementação do decorator `@login_required` impedindo navegação forçada (*forced browsing*) a rotas privadas. Limpeza atômica de sessão em `/logout`. Configuração de cookies com `HttpOnly=True` e `SameSite=Lax`. | [`src/main.py`](file:///src/main.py#L90-L105), [`src/main.py`](file:///src/main.py#L195-L215) |
-| **A07:2021 / 2025** | **Identification & Authentication Failures** (Falhas de Autenticação) | Senhas armazenadas exclusivamente sob hash com sal criptográfico (`werkzeug.security` com PBKDF2/Scrypt). Mecanismo anti-brute force via **Flask-Limiter** (máximo de 5 tentativas por minuto por IP). Mensagens de erro padronizadas impedindo enumeração de contas de usuário. | [`src/main.py`](file:///src/main.py#L75-L88), [`src/main.py`](file:///src/main.py#L145-L185) |
-| **A03:2021 / 2025** | **Injection & Cross-Site Scripting (XSS)** | Escape contextual e automático habilitado via Jinja2 em todos os templates; validação estrita de tipos e comprimento de payloads no backend antes de qualquer processamento. | [`src/main.py`](file:///src/main.py#L150-L162), [`src/templates/login.html`](file:///src/templates/login.html) |
-| **A05:2021 / 2025** | **Security Misconfiguration** (Configurações Inseguras) | Injeção obrigatória de cabeçalhos HTTP defensivos em todas as respostas (`Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security`, `Referrer-Policy`). Mascaramento de cabeçalhos de identificação do servidor. | [`src/main.py`](file:///src/main.py#L107-L140) |
+| Categoria OWASP Top 10:2025 | Risco | Controle implementado |
+|---|---|---|
+| **A01 — Broken Access Control** | Acesso indevido a páginas restritas | Decorator `@login_required`, verificação de sessão e bloqueio de acesso não autenticado. |
+| **A02 — Security Misconfiguration** | Configurações inseguras | Exigência de variáveis de ambiente para senha administrativa e chave de sessão. Os cabeçalhos de segurança devem ser conferidos no código e testados nas respostas HTTP. |
+| **A05 — Injection** | Injeção de dados maliciosos | Templates Jinja2 com escape automático. Essa proteção não substitui a validação específica de entradas quando necessária. |
+| **A07 — Authentication Failures** | Falhas de autenticação | Hash de senha com PBKDF2, mensagens de erro padronizadas e limitação de tentativas, conforme configurado na aplicação. |
 
+**Evidências:** testes automatizados em `tests/test_security_and_routes.py`. Os testes aprovados demonstram os comportamentos cobertos por eles, mas não comprovam a ausência de todas as vulnerabilidades dessas categorias.
 ---
 
 ## 🔄 Integração e Entrega Contínuas (CI/CD)
@@ -336,7 +336,8 @@ python src/main.py
 Acesse no navegador: **`http://localhost:5000`**
 
 - **Usuário padrão:** `admin`
-- **Senha padrão:** `Admin@Sec2026!Projeto` (ou a configurada no `.env`)
+- **Credenciais de acesso:** configure `ADMIN_USERNAME` e `ADMIN_PASSWORD` no arquivo `.env` local ou nas variáveis de ambiente do servidor.
+- **Segurança:** não utilize senhas padrão no código nem publique credenciais no repositório.
 
 ---
 

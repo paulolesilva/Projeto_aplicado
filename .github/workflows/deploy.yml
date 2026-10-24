@@ -122,11 +122,16 @@ jobs:
             ./venv/bin/pip install --upgrade pip
             ./venv/bin/pip install -r requirements.txt
             
-            if systemctl is-active --quiet projeto-aplicado; then
-              sudo systemctl restart projeto-aplicado
-              echo "[+] Serviço projeto-aplicado reiniciado com sucesso!"
-            else
-              echo "[!] Serviço systemd não configurado ou inativo. Verifique o README.md."
-            fi
             
-            echo "[✓] Deploy finalizado com sucesso via GitHub Actions!"
+
+	   if ! systemctl is-active --quiet projeto-aplicado; then
+            echo "[ERRO] O serviço projeto-aplicado não está ativo ou não está configurado."
+            echo "[ERRO] Configure o serviço systemd antes de executar o deploy."
+            exit 1
+             fi
+
+            sudo systemctl restart projeto-aplicado
+            sudo systemctl is-active --quiet projeto-aplicado
+
+            echo "[✓] Serviço reiniciado e ativo."
+            echo "[✓] Deploy remoto concluído."
