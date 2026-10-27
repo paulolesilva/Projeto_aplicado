@@ -100,7 +100,7 @@ jobs:
           script: |
             set -e
             echo "[+] Iniciando atualização da aplicação no servidor..."
-            APP_DIR="/opt/projeto-aplicado"
+            APP_DIR="/home/ubuntu/Projeto_aplicado"
             
             if [ ! -d "$APP_DIR" ]; then
               sudo mkdir -p $APP_DIR
@@ -123,12 +123,11 @@ jobs:
             ./venv/bin/pip install -r requirements.txt
             
             
-
-	   if ! systemctl is-active --quiet projeto-aplicado; then
-            echo "[ERRO] O serviço projeto-aplicado não está ativo ou não está configurado."
-            echo "[ERRO] Configure o serviço systemd antes de executar o deploy."
-            exit 1
-             fi
+	        if ! systemctl is-active --quiet projeto-aplicado; then
+              echo "[ERRO] O serviço projeto-aplicado não está ativo ou não está configurado."
+              echo "[ERRO] Configure o serviço systemd antes de executar o deploy."
+              exit 1
+            fi
 
             sudo systemctl restart projeto-aplicado
             sudo systemctl is-active --quiet projeto-aplicado
