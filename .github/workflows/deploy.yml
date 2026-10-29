@@ -30,6 +30,8 @@ jobs:
           python -m py_compile src/main.py
 
       - name: Executar Testes Automatizados de Segurança (OWASP)
+        env:
+          FLASK_SECRET_KEY: "chave-secreta-ficticia-para-testes-ci"
         run: |
           python -m unittest tests/test_security_and_routes.py
 
