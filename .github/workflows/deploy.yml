@@ -62,7 +62,12 @@ jobs:
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          FLASK_SECRET_KEY: "chave-secreta-ficticia-para-testes-ci"
+          ADMIN_PASSWORD: "senha-ficticia-para-testes-ci"
         run: |
+          echo "============================================================"
+          # ... (resto do comando run existente)
+        
           echo "============================================================"
           echo "🛡️ CI/CD DEPLOY SIMULATION - PROJETO APLICADO (DEVSECOPS)"
           echo "============================================================"
